@@ -49,6 +49,9 @@ int main(){
     }
     cout << myGraph.printGraph();
 
+    
+    //Buscando constelaciones
+
     cout << myGraph.printBFS(0);
     cout << myGraph.printDFS(0);
     cout << myGraph.getDirigido();
@@ -71,34 +74,6 @@ int main(){
     for (vector<int>::iterator it = myGraphPim.begin(); it != myGraphPim.end(); ++it){
         cout << *it << " ";
     }
-        
-    
-   
-    
-
-/*
-    
-    myGraph.agregarArista(2, 3);
-    myGraph.agregarArista(2, 3);
-    myGraph.agregarArista(2, 4, 0, 1);
-    myGraph.agregarArista(2, 4, 3);
-    cout << myGraph.printGraph();
-
-    Graph<int> grafo(1);
-    grafo.agregarArista(1, 2);
-    grafo.agregarArista(1, 6);
-    grafo.agregarArista(2, 3);
-    grafo.agregarArista(2, 4);
-    grafo.agregarArista(3, 4);
-    grafo.agregarArista(5, 4);
-    grafo.agregarArista(6, 5);
-    cout << grafo.printGraph();
-    cout<<grafo.cantidadCamposConectados()<<endl;
-   */
-
-//Buscando constelaciones
-
-    
     
 
 
