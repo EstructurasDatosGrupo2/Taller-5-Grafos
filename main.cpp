@@ -60,7 +60,7 @@ int main(){
     map<int, pair<int, int >> dijkstraReult;
     dijkstraReult = myGraph.dijkstra(0);
     for (map<int, pair<int, int >>::iterator it = dijkstraReult.begin(); it != dijkstraReult.end(); ++it){
-        cout << "| " << it->first << ": (" << it->second.first << ", [" << it->second.second << "])" << endl;
+        cout << "| " << it->first << ": (" << it->second.first << ", [" << it->second.second << "]) |" << endl;
     }
 
     cout << endl;
