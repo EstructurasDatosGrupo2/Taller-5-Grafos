@@ -52,6 +52,10 @@ int main(){
     
     //Buscando constelaciones
 
+    //Constelaciones Euler 20
+
+
+
     cout << myGraph.printBFS(0);
     cout << myGraph.printDFS(0);
     cout << myGraph.getDirigido();
@@ -74,6 +78,10 @@ int main(){
     for (vector<int>::iterator it = myGraphPim.begin(); it != myGraphPim.end(); ++it){
         cout << *it << " ";
     }
+
+    cout << endl;
+    cout << endl;
+
     
 
 
