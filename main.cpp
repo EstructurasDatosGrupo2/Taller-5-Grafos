@@ -17,8 +17,10 @@ int main(){
     Graph<int, int> myGraph(2);
     queue<int> queueStellarMap;
     char matrixAdj[29][29];
+
+
     /*
-    cout<<"Hello the Stellar Traker program"<<endl;
+    
     myGraph.agregarArista(2, 3);
     myGraph.agregarArista(2, 3);
     myGraph.agregarArista(2, 4, 0, 1);
@@ -37,10 +39,11 @@ int main(){
     cout<<grafo.cantidadCamposConectados()<<endl;
    */
 
+    cout<<"Hello the Stellar Traker program"<<endl;
+//Cargando Mapa estelar
     queueStellarMap = uploadStellarMap("stellarMap.txt");
-    cout << endl;
-    cout << endl;
-   
+
+//Creando matriz de adya
     for(int filas = 0; filas < 28; filas++){
 
         for (int columnas = 0; columnas < 28; columnas++){
@@ -51,6 +54,11 @@ int main(){
         }
         cout << endl;
     }
+
+
+//Creando grafo
+
+//Buscando constelaciones
 
     
     
@@ -79,7 +87,7 @@ queue<int> uploadStellarMap(string fileName){
 	while (!file.eof()) 
 	{
 		file.getline(ch,1040,',');	//reading from file
-		cout << ch << " ";	//printing
+		//cout << ch << " ";	//printing
         int cost = atoi(ch);
         queueStellarMap.push(cost);
      
