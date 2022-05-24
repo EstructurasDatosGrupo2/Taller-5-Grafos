@@ -16,28 +16,8 @@ int main(){
 
     Graph<int, int> myGraph(2);
     queue<int> queueStellarMap;
-    char matrixAdj[29][29];
+    int matrixAdj[29][29];
 
-
-    /*
-    
-    myGraph.agregarArista(2, 3);
-    myGraph.agregarArista(2, 3);
-    myGraph.agregarArista(2, 4, 0, 1);
-    myGraph.agregarArista(2, 4, 3);
-    cout << myGraph.printGraph();
-
-    Graph<int> grafo(1);
-    grafo.agregarArista(1, 2);
-    grafo.agregarArista(1, 6);
-    grafo.agregarArista(2, 3);
-    grafo.agregarArista(2, 4);
-    grafo.agregarArista(3, 4);
-    grafo.agregarArista(5, 4);
-    grafo.agregarArista(6, 5);
-    cout << grafo.printGraph();
-    cout<<grafo.cantidadCamposConectados()<<endl;
-   */
 
     cout<<"Hello the Stellar Traker program"<<endl;
 //Cargando Mapa estelar
@@ -57,6 +37,26 @@ int main(){
 
 
 //Creando grafo
+
+/*
+    
+    myGraph.agregarArista(2, 3);
+    myGraph.agregarArista(2, 3);
+    myGraph.agregarArista(2, 4, 0, 1);
+    myGraph.agregarArista(2, 4, 3);
+    cout << myGraph.printGraph();
+
+    Graph<int> grafo(1);
+    grafo.agregarArista(1, 2);
+    grafo.agregarArista(1, 6);
+    grafo.agregarArista(2, 3);
+    grafo.agregarArista(2, 4);
+    grafo.agregarArista(3, 4);
+    grafo.agregarArista(5, 4);
+    grafo.agregarArista(6, 5);
+    cout << grafo.printGraph();
+    cout<<grafo.cantidadCamposConectados()<<endl;
+   */
 
 //Buscando constelaciones
 
