@@ -20,15 +20,15 @@ int main(){
 
 
     cout<<"Hello the Stellar Traker program"<<endl;
-//Cargando Mapa estelar
+    //Cargando Mapa estelar
     queueStellarMap = uploadStellarMap("stellarMap.txt");
 
-//Creando matriz de adya
-    for(int filas = 0; filas < 28; filas++){
+    //Creando matriz de adya
+    for(int filas = 0; filas < 29; filas++){
 
-        for (int columnas = 0; columnas < 28; columnas++){
+        for (int columnas = 0; columnas < 29; columnas++){
             matrixAdj[filas][columnas] = queueStellarMap.front();
-            cout << queueStellarMap.front() << " ";
+            cout << queueStellarMap.front() << "  ";
             queueStellarMap.pop();
             
         }
@@ -36,7 +36,45 @@ int main(){
     }
 
 
-//Creando grafo
+    //Creando grafo
+
+    for(int filas = 0; filas < 29; filas++){
+        for (int columnas = 0; columnas < 29; columnas++){
+            int cost = matrixAdj[filas][columnas];
+            if(cost != 0){
+                myGraph.agregarArista(filas, columnas, cost, 0);
+            } 
+        }
+                
+    }
+    cout << myGraph.printGraph();
+
+    cout << myGraph.printBFS(0);
+    cout << myGraph.printDFS(0);
+    cout << myGraph.getDirigido();
+
+    cout << endl;
+    cout << endl;
+
+    cout << "Dijkstra de 0"<<endl;
+    map<int, pair<int, int >> dijkstraReult;
+    dijkstraReult = myGraph.dijkstra(0);
+    for (map<int, pair<int, int >>::iterator it = dijkstraReult.begin(); it != dijkstraReult.end(); ++it){
+        cout << "| " << it->first << ": (" << it->second.first << ", [" << it->second.second << "])" << endl;
+    }
+
+    cout << endl;
+    cout << endl;
+
+    cout << "Prim de 0"<<endl;
+    vector<int> myGraphPim = myGraph.prim(0);
+    for (vector<int>::iterator it = myGraphPim.begin(); it != myGraphPim.end(); ++it){
+        cout << *it << " ";
+    }
+        
+    
+   
+    
 
 /*
     
