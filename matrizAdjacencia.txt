@@ -1,0 +1,6 @@
+Matriz de Adjacencia
+Datos para crear matriz de Adjacencia
+Cantidad de vertices: 66
+Cantidad de aristas: 2145
+Cantidad de campos conectados: 66
+Matriz de Adjacencia

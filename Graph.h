@@ -61,6 +61,9 @@ class Graph{
         std::vector<std::vector<T>> constelacionesEuler();
         //Camino hamiltoniano
         std::vector<std::vector<T>> caminoHamiltoniano();
+
+        //costelaciones en su minima expresion
+        std::vector<std::vector<T>> constelacionesMinima(std::vector<std::vector<T>> constelaciones);
         
 
 

@@ -729,4 +729,29 @@ std::vector<std::vector<T>> Graph<T, U>::caminoHamiltoniano(){
 
 }
 
+//costelaciones en su minima expresion
+template <class T, class U>
+std::vector<std::vector<T>> Graph<T, U>::constelacionesMinima(std::vector<std::vector<T>> constelaciones){
+    std::vector<std::vector<T>> constelacionesMinima;
+    std::vector<T> constelacionMinima;
+
+    for (typename std::vector<std::vector<T>>::iterator it_constelaciones = constelaciones.begin(); it_constelaciones != constelaciones.end(); ++it_constelaciones)
+    {
+        for (typename std::vector<T>::iterator it_constelacion = it_constelaciones->begin(); it_constelacion != it_constelaciones->end(); ++it_constelacion)
+        {
+            if (it_constelaciones->size() == 2)
+            {
+                constelacionMinima.push_back(*it_constelacion);
+                constelacionMinima.push_back(*(it_constelacion + 1));
+                constelacionesMinima.push_back(constelacionMinima);
+                constelacionMinima.clear();
+            }
+        }
+    }
+
+    return constelacionesMinima;
+    
+
+}
+
 
