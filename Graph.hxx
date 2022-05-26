@@ -1,5 +1,7 @@
 #include "Graph.h"
 #include <iostream>
+
+
 template <class T, class U>
 Graph<T, U>::Graph(bool dirigido)
 {
@@ -7,9 +9,24 @@ Graph<T, U>::Graph(bool dirigido)
     this->dirigido = dirigido;
 }
 
-template <class T, class U>
-std::string Graph<T, U>::printGraph()
+template  <class T, class U>
+int Graph<T, U>::getCantNodos()
 {
+    
+    this->cantNodos = cantidadVertices();
+    return this->cantNodos;
+}
+
+template  <class T, class U>
+std::map<T,std::map<T, std::set<U>>> Graph<T, U>::getVertices_aristas()
+{
+    return this->vertices_aristas;
+}
+
+
+
+template <class T, class U>
+std::string Graph<T, U>::printGraph(){
     std::string printing = "\nPeso 0 implica que no tiene peso, una lista vacía significa que es un nodo isla o un nodo sumidero\n\n";
     typedef std::map<T, std::set<U>> W;
     typename std::map<T, W>::iterator it_vertices = this->vertices_aristas.begin();
@@ -541,45 +558,69 @@ std::vector<T> Graph<T, U>::prim(T start)
 template <class T, class U>
 std::vector<T> Graph<T, U>::kruskal()
 {
-    typedef typename std::pair<U, std::pair<T, T>> arista;
-    typedef typename std::map<T, std::set<U>> _aristas;
-    typedef typename std::vector<T> mst;
-
-    typename std::vector<arista> aristas;
-    typename std::vector<mst>::iterator trees_it;
-    typename std::vector<mst>::iterator trees_it2;
-    typename mst::iterator kruskal_it;
-    mst *generic_tree;
-    std::vector<T> *kruskal;
-    std::vector<mst> trees;
-    arista *arista_sola;
-
-    for (typename std::map<T, _aristas>::iterator it_vertices = this->vertices_aristas.begin(); it_vertices != this->vertices_aristas.end(); ++it_vertices)
+    std::set<T> vnew;
+    std::vector<T> enew;
+    typename std::map<T, std::map<T, std::set<U>>>::iterator it_vertices;
+    typename std::map<T, std::set<U>>::iterator it_aristas;
+    std::pair<T, U> weight;
+    U actual_weight;
+    vnew.insert(this->vertices_aristas.begin()->first);
+    enew.push_back(this->vertices_aristas.begin()->first);
+    while (this->vertices_aristas.size() != vnew.size())
     {
-        generic_tree = new mst;
-        generic_tree->push_back(it_vertices->first);
-        trees.push_back(*(generic_tree));
-        for (typename _aristas::iterator it_aristas = this->vertices_aristas[it_vertices->first].begin(); it_aristas != this->vertices_aristas[it_vertices->first].end(); ++it_aristas)
+        //Hallar el menor (u,v) que tenga u visitado y v no
+        //Buscar U:
+        weight.second = -273;
+        it_vertices = this->vertices_aristas.begin();
+        for (; it_vertices != this->vertices_aristas.end(); ++it_vertices)
         {
-            for (typename std::set<U>::iterator it_pesos = this->vertices_aristas[it_vertices->first][it_aristas->first].begin(); it_pesos != this->vertices_aristas[it_vertices->first][it_aristas->first].end(); it_pesos++)
+            //U en vnew
+            if (vnew.count(it_vertices->first) != 0)
             {
-                arista_sola = new arista;
-                arista_sola->first = (*it_pesos);
-                arista_sola->second.first = (it_vertices->first);
-                arista_sola->second.second = (it_aristas->first);
-                aristas.push_back(*(arista_sola));
+                it_aristas = this->vertices_aristas[it_vertices->first].begin();
+                for (; it_aristas != this->vertices_aristas[it_vertices->first].end(); ++it_aristas)
+                {
+                    //V no en vnew
+                    if (vnew.count(it_aristas->first) == 0)
+                    {
+                        actual_weight = *(it_aristas->second.begin());
+                        if (((actual_weight < weight.second || weight.second == -273)) || (((weight.second != -273) && (actual_weight == weight.second)) && (weight.first > it_aristas->first)))
+                        {
+                            //La última condición es para orden ascendente
+                            weight.first = it_aristas->first;
+                            weight.second = actual_weight;
+                        }
+                    }
+                }
             }
         }
+        enew.push_back(weight.first);
+        vnew.insert(weight.first);
+
+        //Eliminar aristas
+        it_vertices = this->vertices_aristas.begin();
+        for (; it_vertices != this->vertices_aristas.end(); ++it_vertices)
+        {
+            it_aristas = this->vertices_aristas[it_vertices->first].begin();
+            for (; it_aristas != this->vertices_aristas[it_vertices->first].end(); ++it_aristas)
+            {
+                if (it_aristas->first == weight.first)
+                {
+                    this->vertices_aristas[it_vertices->first].erase(it_aristas);
+                    break;
+                }
+            }
+        }
+
+        //Eliminar vertice
+
+        this->vertices_aristas.erase(weight.first);
+
     }
-    sort(aristas.begin(), aristas.end());
-    int a;
-    std::cin >> a;
-    arista_sola = &(*aristas.begin());
-    while (!aristas.empty())
-    {
-        
-    }
-    return *kruskal;
+
+
+
+    return enew;
 }
 
 template <class T, class U>
@@ -628,4 +669,64 @@ std::map<T, std::pair<T, U>> Graph<T, U>::dijkstra(T start)
         }
     }
     return dist;
+
+
 }
+
+
+//constelaciones
+template <class T, class U>
+std::vector<std::vector<T>> Graph<T, U>::constelacionesEuler(){
+    std::vector<std::vector<T>> constelacionesEuler;
+    std::vector<T> constelacion;
+
+    
+    //Constelaciones aristas de valor menor a 20
+    for (typename std::map<T, std::map<T, std::set<U>>>::iterator it_vertices = this->vertices_aristas.begin(); it_vertices != this->vertices_aristas.end(); ++it_vertices)
+    {
+        for (typename std::map<T, std::set<U>>::iterator it_aristas = it_vertices->second.begin(); it_aristas != it_vertices->second.end(); ++it_aristas)
+        {
+            if (it_aristas->second.size() < 20)
+            {
+                constelacion.push_back(it_vertices->first);
+                constelacion.push_back(it_aristas->first);
+                constelacionesEuler.push_back(constelacion);
+                constelacion.clear();
+            }
+        }
+    }
+    
+    
+    
+    
+    return constelacionesEuler;
+}
+
+template <class T, class U>
+std::vector<std::vector<T>> Graph<T, U>::caminoHamiltoniano(){
+    
+    std::vector<std::vector<T>> caminoHamiltoniano;
+    std::vector<T> camino;
+
+    //Camino Hamiltoniano
+    for (typename std::map<T, std::map<T, std::set<U>>>::iterator it_vertices = this->vertices_aristas.begin(); it_vertices != this->vertices_aristas.end(); ++it_vertices)
+    {
+        for (typename std::map<T, std::set<U>>::iterator it_aristas = it_vertices->second.begin(); it_aristas != it_vertices->second.end(); ++it_aristas)
+        {
+            if (it_aristas->second.size() == 1)
+            {
+                camino.push_back(it_vertices->first);
+                camino.push_back(it_aristas->first);
+                caminoHamiltoniano.push_back(camino);
+                camino.clear();
+            }
+        }
+    }
+
+    return caminoHamiltoniano;
+    
+    
+
+}
+
+

@@ -1,16 +1,15 @@
 #include "Graph.h"
 #include <cstdlib>
 #include <fstream>
-#include <string>
-#include <vector>
-#include <queue>
 #include <iostream>
 #include <stdio.h>
+#include <vector>
 
 using namespace std;
 
 queue<int> uploadStellarMap(string fileName);
-void saveConstellationsTack(string fileName);
+void saveConstellationsHAMILTONTack(std::vector<std::vector<int>> constelaciones);
+void saveConstellationsEULERTack(std::vector<std::vector<int>> constelaciones);
 
 int main(){
 
@@ -37,7 +36,7 @@ int main(){
 
 
     //Creando grafo
-
+    
     for(int filas = 0; filas < 29; filas++){
         for (int columnas = 0; columnas < 29; columnas++){
             int cost = matrixAdj[filas][columnas];
@@ -47,46 +46,112 @@ int main(){
         }
                 
     }
-    cout << myGraph.printGraph();
-
+    cout << "Grafo creado" << endl;
     
-    //Buscando constelaciones
+    cout << myGraph.printGraph();
+    cout << "Cantidad de nodos: " << myGraph.getCantNodos() << endl;
+    cout << "Cantidad de aristas: " << myGraph.cantidadAristas() << endl;
+    cout << "Cantidad de vertices: " << myGraph.cantidadVertices() << endl;
+    cout << "Dirigido: " << myGraph.getDirigido() << endl;
+    cout << "Datos del Vetice 0;" << endl;
+    cout << "Arista puente: " << myGraph.aristaPuente(0, 1, 0) << endl;
+    cout << "Grado salida: " << myGraph.gradoSalida(0) << endl;
+    cout << "Grado entrada: " << myGraph.gradoEntrada(0) << endl;
+    cout << "Grado: " << myGraph.grado(0) << endl;
+    cout << "Descendientes: ";
+    myGraph.descendientes(0);
+    cout<< endl;
+    cout << "Ascendientes: ";
+    myGraph.ascendientes(0);
+    cout << endl;
+    cout << "Grafo conectado: " << myGraph.grafoConectado() << endl;
+    cout << "Cantidad de campos conectados: " << myGraph.cantidadCamposConectados() << endl;
+    cout << "Recorrido DFS: " << myGraph.printDFS(0) << endl;
+    cout << "Recorrido BFS: " << myGraph.printBFS(0) << endl;
+    
+    
+    cout << endl;
+    cout << endl;
 
     //Constelaciones Euler 20
-
-
-
-    cout << myGraph.printBFS(0);
-    cout << myGraph.printDFS(0);
-    cout << myGraph.getDirigido();
-
-    cout << endl;
-    cout << endl;
-
-    cout << "Dijkstra de 0"<<endl;
-    map<int, pair<int, int >> dijkstraReult;
-    dijkstraReult = myGraph.dijkstra(0);
-    for (map<int, pair<int, int >>::iterator it = dijkstraReult.begin(); it != dijkstraReult.end(); ++it){
-        cout << "| " << it->first << ": (" << it->second.first << ", [" << it->second.second << "]) |" << endl;
+    cout << "Constelaciones Euler"<<endl;
+    vector<vector<int>> constelacionesEuler = myGraph.constelacionesEuler();
+    for (vector<vector<int>>::iterator it = constelacionesEuler.begin(); it != constelacionesEuler.end(); ++it){
+        for (vector<int>::iterator it2 = it->begin(); it2 != it->end(); ++it2){
+            cout << *it2 << " ";
+        }
+        cout << endl;
     }
 
     cout << endl;
     cout << endl;
 
-    cout << "Prim de 0"<<endl;
-    vector<int> myGraphPim = myGraph.prim(0);
-    for (vector<int>::iterator it = myGraphPim.begin(); it != myGraphPim.end(); ++it){
-        cout << *it << " ";
+    //camino hamiltoniano
+    cout << "Camino hamiltoniano"<<endl;
+    vector< vector<int> > caminoHamiltoniano = myGraph.caminoHamiltoniano();
+    for (vector<vector<int>>::iterator it = caminoHamiltoniano.begin(); it != caminoHamiltoniano.end(); ++it){
+        for (vector<int>::iterator it2 = it->begin(); it2 != it->end(); ++it2){
+            cout << *it2 << " ";
+        }
+        cout << endl;
     }
-
     cout << endl;
     cout << endl;
 
+
+    saveConstellationsEULERTack(constelacionesEuler);
+    saveConstellationsHAMILTONTack(caminoHamiltoniano);
     
 
-
-  
    
+}
+//Guardando constelaciones
+void saveConstellationsEULERTack(std::vector<std::vector<int>> constelaciones){
+    ofstream myFile;
+    int counter = 0;
+    myFile.open("constellationsEULER<20.txt");
+    myFile << "Constelcion Euler de costos menores a 20" << endl;
+    myFile << "Datos para crear matriz de Adjacencia" << endl;
+
+    for (vector<vector<int>>::iterator it = constelaciones.begin(); it != constelaciones.end(); ++it){
+        myFile << "Nodos-conectados: ";
+        for (vector<int>::iterator it2 = it->begin(); it2 != it->end(); ++it2){
+            myFile << " " << *it2;
+            counter++;
+        }
+         
+        myFile << endl;
+    }
+    
+    myFile << "Cantidad de vertices: " << counter << endl;
+    myFile << "EU-" << counter <<" Y"<<" 2022" << endl;
+    myFile.close();
+    
+
+}
+
+void saveConstellationsHAMILTONTack(std::vector<std::vector<int>> constelaciones){
+    ofstream myFile;
+    int counter = 0;
+    myFile.open("constellationsHAMILTON<20.txt");
+    myFile << "Constelcion Euler de costos menores a 20" << endl;
+    myFile << "Datos para crear matriz de Adjacencia" << endl;
+
+    for (vector<vector<int>>::iterator it = constelaciones.begin(); it != constelaciones.end(); ++it){
+        myFile << "Nodos-conectados: ";
+        for (vector<int>::iterator it2 = it->begin(); it2 != it->end(); ++it2){
+            myFile << " " << *it2;
+            counter++;
+        }
+         
+        myFile << endl;
+    }
+    
+    myFile << "Cantidad de vertices: " << counter << endl;
+    myFile << "HA-" << counter <<" Y"<<" 2022" << endl;
+    myFile.close();
+    
+
 }
 
 queue<int> uploadStellarMap(string fileName){
@@ -101,7 +166,6 @@ queue<int> uploadStellarMap(string fileName){
 	if(!file)
 	{
 		cout<<"Error in opening file!!!"<<endl;
-		
 	}
 	
 	//read and print file content
@@ -119,23 +183,5 @@ queue<int> uploadStellarMap(string fileName){
    
 
     return queueStellarMap;
-}
-
-void saveConstellationsTack(string fileName){
-    fstream newfile;
-    newfile.open(fileName,ios::out);  // open a file to perform write operation using file object
-    if(newfile.is_open())     //checking whether the file is open
-    {
-        newfile<<"Tutorials point \n"; //inserting text
-        newfile.close(); //close the file object
-    }
-    newfile.open(fileName,ios::in); //open a file to perform read operation using file object
-    if (newfile.is_open()){   //checking whether the file is open
-        string tp;
-        while(getline(newfile, tp)){  //read data from file object and put it into string.
-            cout << tp << "\n";   //print the data of the string
-        }
-        newfile.close();   //close the file object.
-    }
 }
 

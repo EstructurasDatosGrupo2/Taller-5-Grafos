@@ -11,16 +11,23 @@
 #include <utility>
 #include <algorithm>
 #include <string>
+#include <iterator>
 
 template <class T, class U=int>
 class Graph{
+
     private:
         bool dirigido;
+        int cantNodos;
         std::map<T,std::map<T, std::set<U>>> vertices_aristas;
+        std::map<T,std::map<T, U>> vertices_pesos;
+        
     public:
         Graph(bool dirigido=false);
         std::string printGraph();
         bool getDirigido();
+        int getCantNodos();
+        std::map<T,std::map<T, std::set<U>>> getVertices_aristas();
         bool agregarArista(T start, T end, U value=0, int directed=2);
         bool buscarArista(T start, T end, U value=0);
         bool eliminarArista(T start, T end, U value=0);
@@ -49,6 +56,16 @@ class Graph{
         std::vector<T> prim(T start);
         std::vector<T> kruskal();
         std::map<T, std::pair<T, U>> dijkstra(T start);
+
+        //constelaciones
+        std::vector<std::vector<T>> constelacionesEuler();
+        //Camino hamiltoniano
+        std::vector<std::vector<T>> caminoHamiltoniano();
+        
+
+
+
+        
       
 };
 
